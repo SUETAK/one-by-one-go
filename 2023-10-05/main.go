@@ -8,32 +8,28 @@ import (
 
 func main() {
 	// 今日の日付でディレクトリを作成する
-	//todayString := time.Now().Format("2006-01-02")
-	today := time.Now()
-	tomorrow := today.AddDate(0, 0, 1)
-	todayString := tomorrow.Format("2006-01-02")
+	todayString := time.Now().Format("2006-01-02")
 	dirString := "../" + todayString
+	// MkdirAll で親ディレクトリを含めてディレクトリ階層を指定する
 	if err := os.MkdirAll(dirString, 0777); err != nil {
 		log.Fatal(err)
 	}
 
-	// ディレクトリ内部にmain.go, go.modを作成する
-	if err := os.Chdir(todayString); err != nil {
+	if err := os.Chdir(dirString); err != nil {
 		log.Fatal(err)
 	}
 
-	// main.go
+	// ディレクトリ内部にmain.go, go.modを作成する
 	mainFile, err := os.Create("main.go")
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// go.mod
 	modFile, modCreateErr := os.Create("go.mod")
 	if modCreateErr != nil {
 		log.Fatal(err)
 	}
 
+	// 無名関数で最後にファイルを閉じる
 	defer func() {
 		if err := mainFile.Close(); err != nil {
 			log.Fatal(err)
@@ -46,12 +42,13 @@ func main() {
 	}()
 
 	// main ファイルに書き込む
-	_, err = mainFile.WriteString(`package main \n \n func main() {}`)
+	// 改行は \n で行い、ダブルクォーテーションで囲まないと改行にならない
+	_, err = mainFile.WriteString("package main\n\nfunc main() {}")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	modFileString := `module ` + todayString + `/n /n go 1.20`
+	modFileString := "module " + todayString + "\n\ngo 1.20"
 	_, err = modFile.WriteString(modFileString)
 	if err != nil {
 		log.Fatal(err)
