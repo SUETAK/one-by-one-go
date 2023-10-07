@@ -76,8 +76,7 @@ timer
   - カウントダウンの中止
   - カウントダウンの終了
 
-```mermaid
-main -> countDownService: コマンドライン引数を取得する
+```
+Main -> countDownService: コマンドライン引数を取得する
 countDownService -> timer: タイマーオブジェクトの生成
-
 ```

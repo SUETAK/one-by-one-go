@@ -1,15 +1,19 @@
 package service
 
+import "2023-10-07/domain"
+
 type CountdownService interface {
 	Start()
 }
 
-func NewCountdownService() CountdownService {
-	return &countdownService{}
+func NewCountdownService(count int64) CountdownService {
+	return &countdownService{
+		timer: domain.NewTimer(count),
+	}
 }
 
 type countdownService struct {
-	count int64
+	timer *domain.Timer
 }
 
 func (c *countdownService) Start() {}
