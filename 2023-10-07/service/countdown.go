@@ -32,7 +32,7 @@ func (c *countdownService) Start() {
 	fmt.Println("10秒間のカウントダウンを開始します。途中で任意のキーを押してください。")
 
 	// タイマーを設定 (例: 10秒)
-	timerDuration := 10 * time.Second
+	timerDuration := c.timer.GetDuration()
 	endTime := time.Now().Add(timerDuration)
 
 	for time.Now().Before(endTime) {
