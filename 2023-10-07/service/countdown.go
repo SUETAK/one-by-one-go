@@ -4,7 +4,6 @@ import (
 	"2023-10-07/domain"
 	"fmt"
 	"github.com/eiannone/keyboard"
-	"time"
 )
 
 type CountdownService interface {
@@ -29,25 +28,41 @@ func (c *countdownService) Start() {
 	}
 	defer keyboard.Close()
 
-	fmt.Println("10秒間のカウントダウンを開始します。途中で任意のキーを押してください。")
+	fmt.Printf("%d秒間のカウントダウンを設定しました。カウントダウンを開始するには't'キーを押してください。\n", c.timer.GetDuration())
 
-	// タイマーを設定 (例: 10秒)
-	timerDuration := c.timer.GetDuration()
-	endTime := time.Now().Add(timerDuration)
-
-	for time.Now().Before(endTime) {
-		// キーイベントの監視 (非ブロッキング)
-		char, _, err := keyboard.GetSingleKey()
-		if err != nil {
-			panic(err)
+	// goroutineでキーイベントの監視を開始
+	keyPressCh := make(chan rune)
+	go func() {
+		for {
+			char, _, err := keyboard.GetSingleKey()
+			if err != nil {
+				panic(err)
+			}
+			keyPressCh <- char
 		}
+	}()
 
+	for c.timer.GetDuration() >= 0 {
+		char := <-keyPressCh
 		if char != 0 {
 			fmt.Printf("'%c' キーが押されました。\n", char)
+			if char == 't' {
+				c.timer.CountStart()
+			}
+			if char == 's' {
+				c.timer.CountStop()
+				fmt.Printf("カウントダウンを停止しました")
+			}
+			if char == 'r' {
+				fmt.Printf("カウントダウンを再開しました")
+				c.timer.CountStart()
+			}
 		}
 
-		// 一定間隔（例: 0.1秒）で確認
-		time.Sleep(100 * time.Millisecond)
+		if c.timer.GetState() == "start" {
+			c.timer.Countdown()
+			fmt.Printf("%d秒\n", c.timer.GetDuration())
+		}
 	}
 
 	fmt.Println("カウントダウン終了!")

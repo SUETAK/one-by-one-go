@@ -5,6 +5,7 @@ import "time"
 type Timer struct {
 	//　外部から書き換えできないようにする
 	count int64
+	state string
 }
 
 func NewTimer(count int64) *Timer {
@@ -14,10 +15,24 @@ func NewTimer(count int64) *Timer {
 }
 
 func (t *Timer) Countdown() {
+	if t.state == "stop" {
+		return
+	}
+	time.Sleep(1 * time.Second)
 	t.count -= 1
 }
 
-func (t *Timer) CountStop() {}
+func (t *Timer) CountStop() {
+	t.state = "stop"
+}
+
+func (t *Timer) CountStart() {
+	t.state = "start"
+}
+
+func (t *Timer) GetState() string {
+	return t.state
+}
 
 func (t *Timer) GetDuration() time.Duration {
 	return time.Duration(t.count) * time.Second
