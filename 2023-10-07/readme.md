@@ -80,3 +80,8 @@ timer
 Main -> countDownService: コマンドライン引数を取得する
 countDownService -> timer: タイマーオブジェクトの生成
 ```
+
+# 学び
+- duration の計算では、int64 型の値とtime.Second は計算できない
+  - time.Duration でキャストする必要がある
+  - 10 * time.Second の場合は、10 が未型付だと判断されるため、型がtime.Duration と解釈されるため、計算ができる
