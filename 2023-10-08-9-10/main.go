@@ -10,6 +10,7 @@ import (
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
+	// main 関数が終了するとコンテキストは終了する
 	defer cancel()
 
 	// OSのシグナルを捕捉するためのチャネルの作成

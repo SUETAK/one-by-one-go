@@ -25,11 +25,7 @@ func (c *countdownService) Start(ctx context.Context) {
 	fmt.Printf("%d秒間のカウントダウンを設定しました。\n カウントを開始するためには't'キーを押してください。 カウントを中止する時は's'、再開する時は'r'キーを押してください", c.timer.GetDuration())
 
 	keyMonitor := c.timer.GetKeyMonitor()
-	defer func() {
-		keyMonitor.Stop()
-		ctx.Done()
-	}()
-	keyMonitor.Open()
+	keyMonitor.Open(ctx)
 
 	for c.timer.GetDuration() > 0 {
 		select {

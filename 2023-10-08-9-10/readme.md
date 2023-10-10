@@ -90,4 +90,4 @@ countDownService -> timer: タイマーオブジェクトの生成
 ## 10-10
 - context の使い方
   - withCancel を使ってcontext を作成する
-  - 
+  - 構造体にchannel を持たせれば、そのチャンネルから値を取得できる

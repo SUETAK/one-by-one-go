@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/eiannone/keyboard"
+import (
+	"context"
+	"github.com/eiannone/keyboard"
+)
 
 type KeyMonitor struct {
 	ch chan rune
@@ -17,22 +20,28 @@ func NewKeyMonitor() *KeyMonitor {
 	}
 }
 
-func (k *KeyMonitor) Open() {
+func (k *KeyMonitor) Open(ctx context.Context) {
+	// context からの終了通知を受け取って終了できるようにする
 	go func() {
 		for {
-			char, _, err := keyboard.GetSingleKey()
-			if err != nil {
-				panic(err)
+			select {
+			case <-ctx.Done():
+				err := keyboard.Close()
+				if err != nil {
+					panic(err)
+				}
+				return
+			default:
+				char, _, err := keyboard.GetSingleKey()
+				if err != nil {
+					panic(err)
+				}
+				k.ch <- char
 			}
-			k.ch <- char
 		}
 	}()
 }
 
-func (k *KeyMonitor) Stop() {
-	defer keyboard.Close()
-}
-
-func (k *KeyMonitor) GetCh() chan rune {
+func (k *KeyMonitor) GetCh() <-chan rune {
 	return k.ch
 }
