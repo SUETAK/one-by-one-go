@@ -4,8 +4,6 @@ import (
 	"2023-10-07/domain"
 	"context"
 	"fmt"
-	"github.com/eiannone/keyboard"
-	"time"
 )
 
 type CountdownService interface {
@@ -23,29 +21,19 @@ type countdownService struct {
 }
 
 func (c *countdownService) Start(ctx context.Context) {
-	// キーボードの監視を開始
-	err := keyboard.Open()
-	if err != nil {
-		panic(err)
-	}
-	defer keyboard.Close()
 
 	fmt.Printf("%d秒間のカウントダウンを設定しました。\n カウントを開始するためには't'キーを押してください。 カウントを中止する時は's'、再開する時は'r'キーを押してください", c.timer.GetDuration())
 
-	keyPressCh := make(chan rune)
-	go func() {
-		for {
-			char, _, err := keyboard.GetSingleKey()
-			if err != nil {
-				panic(err)
-			}
-			keyPressCh <- char
-		}
+	keyMonitor := c.timer.GetKeyMonitor()
+	defer func() {
+		keyMonitor.Stop()
+		ctx.Done()
 	}()
+	keyMonitor.Open()
 
-	for c.timer.GetDuration() >= 0 {
+	for c.timer.GetDuration() > 0 {
 		select {
-		case char := <-keyPressCh:
+		case char := <-keyMonitor.GetCh():
 			switch char {
 			case 't':
 				c.timer.CountStart()
@@ -65,7 +53,6 @@ func (c *countdownService) Start(ctx context.Context) {
 			if c.timer.GetState() == "start" {
 				c.timer.Countdown()
 				fmt.Printf("%d秒\n", c.timer.GetDuration())
-				time.Sleep(1 * time.Second)
 			}
 		}
 	}
