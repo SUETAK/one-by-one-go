@@ -2,13 +2,14 @@ package service
 
 import (
 	"2023-10-07/domain"
+	"context"
 	"fmt"
 	"github.com/eiannone/keyboard"
 	"time"
 )
 
 type CountdownService interface {
-	Start()
+	Start(ctx context.Context)
 }
 
 func NewCountdownService(count int64) CountdownService {
@@ -21,7 +22,7 @@ type countdownService struct {
 	timer *domain.Timer
 }
 
-func (c *countdownService) Start() {
+func (c *countdownService) Start(ctx context.Context) {
 	// キーボードの監視を開始
 	err := keyboard.Open()
 	if err != nil {
@@ -58,6 +59,8 @@ func (c *countdownService) Start() {
 			default:
 				fmt.Printf("'%c' キーが押されました。\n", char)
 			}
+		case <-ctx.Done():
+			fmt.Println("カウントダウンが中断されました")
 		default:
 			if c.timer.GetState() == "start" {
 				c.timer.Countdown()

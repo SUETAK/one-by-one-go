@@ -86,3 +86,8 @@ countDownService -> timer: タイマーオブジェクトの生成
   - time.Duration でキャストする必要がある
   - 10 * time.Second の場合は、10 が未型付だと判断されるため、型がtime.Duration と解釈されるため、計算ができる
   - goroutine を使うことで、キーボード入力を待ちながらカウントダウンをすることができる
+
+## 10-10
+- context の使い方
+  - withCancel を使ってcontext を作成する
+  - 
