@@ -23,12 +23,17 @@ func (p *ProgrammingBook) Author() string {
 	return p.Book.Author
 }
 
+//type BookInterface interface {
+//	Author() string
+//}
+
 type BookInterface interface {
-	Author() string
+	BusinessBook | ProgrammingBook
 }
 
-func GetAuthor[T BookInterface](b T) string {
-	return b.Author()
+// GetAuthor BookInterfaceを実装している型を引数に取る
+func GetAuthor[T BookInterface](b T) T {
+	return b
 }
 
 func Authors() {
@@ -49,10 +54,17 @@ func Authors() {
 		Language: "Go",
 	}
 
-	businessBookAuthor := GetAuthor[BookInterface](&businessBook)
-	programmingBookAuthor := GetAuthor[BookInterface](&programmingBook)
+	//businessBookAuthor := GetAuthor(&businessBook)
+	//programmingBookAuthor := GetAuthor(&programmingBook)
 
-	println(businessBookAuthor)
-	println(programmingBookAuthor)
+	book := Book{Author: "Book Author", Title: "Book Title"}
+
+	businessBookAuthor := GetAuthor(businessBook)
+	programmingBookAuthor := GetAuthor(programmingBook)
+	// Book 型は BookInterface を実装していないのでコンパイルエラー
+	// bookAuthor := GetAuthor(book)
+
+	println(businessBookAuthor.Author())
+	println(programmingBookAuthor.Author())
 
 }
