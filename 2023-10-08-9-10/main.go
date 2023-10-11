@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// サービス全体で使用するコンテキスト
 	ctx, cancel := context.WithCancel(context.Background())
 	// main 関数が終了するとコンテキストは終了する
 	defer cancel()
@@ -24,5 +25,6 @@ func main() {
 	}()
 
 	countdownService := service.NewCountdownService(10)
+	// コンテキストはメソッドに渡すのが良い
 	countdownService.Start(ctx)
 }
