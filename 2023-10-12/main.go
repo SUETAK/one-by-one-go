@@ -23,4 +23,6 @@ func main() {
 	fmt.Println(stack.Pop())
 	fmt.Println(stack.Pop())
 
+	domain.Authors()
+
 }
