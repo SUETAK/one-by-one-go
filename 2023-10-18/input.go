@@ -57,6 +57,25 @@ func notDecideInputAmountSeparatedBySpace() []int {
 
 // 入力パターン
 // N
+// P1 P2 P3 ... Pn
+func decideInputCountAndNotDecideInputAmountSeparatedBySpace() (int, []int) {
+	var n int
+	fmt.Scanf("%d", &n) // %sでstring型を代入
+	sc := bufio.NewScanner(os.Stdin)
+	sc.Scan()
+	inputs := strings.Split(sc.Text(), " ")
+
+	// 配列inputsの中身をstring→intに変換してリストに格納
+	var ps []int                   // Pnを格納する配列を宣言
+	for _, input := range inputs { // 配列inputsの全ての要素について実行
+		p, _ := strconv.Atoi(input) // string→intに型変換
+		ps = append(ps, p)          // intに型変換した値を、Pnを格納する配列に追加
+	}
+	return n, ps
+}
+
+// 入力パターン
+// N
 // U1 V1
 // U2 V1
 // ...

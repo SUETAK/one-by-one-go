@@ -3,9 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	a, b, c := decideInputAmountNotSeparated()
+	n, numbers := decideInputCountAndNotDecideInputAmountSeparatedBySpace()
 
-	ans := countPutOnBallCells(a, b, c)
+	ans := countMaxControl(n, numbers)
 
 	fmt.Println(ans)
 }
