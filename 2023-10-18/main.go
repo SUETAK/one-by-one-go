@@ -3,12 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	a, b := twoInputAmountSeparatedBySpace()
+	a, b, c := decideInputAmountNotSeparated()
 
-	ans := (a * b) % 2
-	if ans == 0 {
-		fmt.Println("Even")
-	} else {
-		fmt.Println("Odd")
-	}
+	ans := countPutOnBallCells(a, b, c)
+
+	fmt.Println(ans)
 }
