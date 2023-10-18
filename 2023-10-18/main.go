@@ -3,9 +3,12 @@ package main
 import "fmt"
 
 func main() {
-	n, numbers := decideInputCountAndNotDecideInputAmountSeparatedBySpace()
+	var a int
+	fmt.Scanf("%d", &a)
 
-	ans := countMaxControl(n, numbers)
+	answerSlice := correctBrackets(a)
 
-	fmt.Println(ans)
+	for _, an := range answerSlice {
+		fmt.Println(an)
+	}
 }
