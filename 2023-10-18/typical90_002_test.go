@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_correctBrackets(t *testing.T) {
 	type args struct {
