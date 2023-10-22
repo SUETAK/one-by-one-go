@@ -1,4 +1,4 @@
-package main
+package input
 
 import (
 	"bufio"
@@ -74,13 +74,13 @@ func decideInputCountAndNotDecideInputAmountSeparatedBySpace() (int, []int) {
 	return n, ps
 }
 
-// 入力パターン
+// NotDecideInputAmountMultiColumns 入力パターン
 // N
 // U1 V1
 // U2 V1
 // ...
 // UN VN
-func notDecideInputAmountMultiColumns() ([]int, []int) {
+func NotDecideInputAmountMultiColumns() ([]int, []int) {
 	// 1文字ずつデータ型を指定して受け取る
 	var n int           // int型の変数を宣言
 	fmt.Scanf("%d", &n) // %dでint型を代入
@@ -99,4 +99,30 @@ func notDecideInputAmountMultiColumns() ([]int, []int) {
 		vs = append(vs, v)                      // vの配列に追加
 	}
 	return us, vs
+}
+
+// NotDecideInputAmountMultiColumnsBySliceMap  入力パターン
+// N
+// U1 V1
+// U2 V1
+// ...
+// UN VN
+// {N: [UN, VN]}
+func NotDecideInputAmountMultiColumnsBySliceMap() (int, map[int][]int) {
+	// 1文字ずつデータ型を指定して受け取る
+	var n int           // int型の変数を宣言
+	fmt.Scanf("%d", &n) // %dでint型を代入
+
+	sc := bufio.NewScanner(os.Stdin) // 標準入力を受け付けるスキャナ
+
+	var inputSliceMap map[int][]int
+	for i := 0; i < n; i++ { // 行数分繰り返す
+		var intInputs []int
+		sc.Scan()                                 // １行分の入力を取得する
+		inputs := strings.Split(sc.Text(), " ")   // 半角スペース区切りでstring型として配列inputsに格納
+		intInputs[0], _ = strconv.Atoi(inputs[0]) // string→intに型変換
+		intInputs[1], _ = strconv.Atoi(inputs[1]) // string→intに型変換
+		inputSliceMap[i] = intInputs
+	}
+	return n, inputSliceMap
 }
