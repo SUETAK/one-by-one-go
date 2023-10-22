@@ -24,17 +24,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	modFile, modCreateErr := os.Create("go.mod")
-	if modCreateErr != nil {
-		log.Fatal(err)
-	}
 
 	// 無名関数で最後にファイルを閉じる
 	defer func() {
 		if err := mainFile.Close(); err != nil {
-			log.Fatal(err)
-		}
-		if err := modFile.Close(); err != nil {
 			log.Fatal(err)
 		}
 
@@ -44,12 +37,6 @@ func main() {
 	// main ファイルに書き込む
 	// 改行は \n で行い、ダブルクォーテーションで囲まないと改行にならない
 	_, err = mainFile.WriteString("package main\n\nfunc main() {}")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	modFileString := "module " + todayString + "\n\ngo 1.20"
-	_, err = modFile.WriteString(modFileString)
 	if err != nil {
 		log.Fatal(err)
 	}
