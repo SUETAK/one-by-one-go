@@ -126,3 +126,23 @@ func NotDecideInputAmountMultiColumnsBySliceMap() (int, map[int][]int) {
 	}
 	return n, inputSliceMap
 }
+
+// GetGrid 入力
+// H W
+// B11 B12 B1w ...
+// B21 B22 B2w ...
+// Bh1 Bh2 Bhw ...
+func GetGrid() (int, int, [][]int) {
+	// 入力
+	var H, W int
+	fmt.Scan(&H, &W)
+
+	A := make([][]int, H)
+	for i := range A {
+		A[i] = make([]int, W)
+		for j := range A[i] {
+			fmt.Scan(&A[i][j])
+		}
+	}
+	return H, W, A
+}
