@@ -8,8 +8,7 @@ import (
 
 func main() {
 	// 今日の日付でディレクトリを作成する
-	todayString := time.Now().Format("2006-01-02")
-	dirString := "../" + todayString
+	dirString := time.Now().Format("2006-01-02")
 	// MkdirAll で親ディレクトリを含めてディレクトリ階層を指定する
 	if err := os.MkdirAll(dirString, 0777); err != nil {
 		log.Fatal(err)
