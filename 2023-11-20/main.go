@@ -3,36 +3,66 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
+	"sort"
 	"strconv"
-	"strings"
 )
 
 func main() {
-	var n int
-	fmt.Scanf("%d", &n)
-	sc := bufio.NewScanner(os.Stdin)
-	sc.Scan()
-	inputs := strings.Split(sc.Text(), " ")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Split(bufio.ScanWords)
 
-	sc.Scan()
+	nextInt := func() int {
+		scanner.Scan()
+		i, _ := strconv.Atoi(scanner.Text())
+		return i
+	}
 
-	for sc.Scan() {
-		input := sc.Text()
-		numB, _ := strconv.Atoi(input)
-		score := math.MaxInt
-		for _, numA := range inputs {
-			numA, _ := strconv.Atoi(numA)
-			d := dissatisfaction(numA, numB)
-			if d < score {
-				score = d
-			}
+	// 無限大を表す値
+	const INF = 1 << 60
+
+	// 入力
+	N := nextInt()
+
+	A := make([]int, N)
+	for i := range A {
+		A[i] = nextInt()
+	}
+
+	// ソート
+	sort.Ints(A)
+
+	// クエリに答える
+	Q := nextInt()
+	for i := 0; i < Q; i++ {
+		B := nextInt()
+
+		// A[j] >= B となる最小の j を求める
+		j := sort.Search(len(A), func(i int) bool { return A[i] >= B })
+
+		// A[j] と A[j-1] を比較する
+		res := INF
+		if j < N {
+			res = min(res, abs(B-A[j]))
 		}
-		fmt.Println(score)
+		if j > 0 {
+			res = min(res, abs(B-A[j-1]))
+		}
+
+		fmt.Println(res)
 	}
 }
 
-func dissatisfaction(rateA, rateB int) int {
-	return int(math.Abs(float64(rateA - rateB)))
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
