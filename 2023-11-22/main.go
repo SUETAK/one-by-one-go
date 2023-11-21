@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// 下記を解いた
+// https://www.hackerrank.com/challenges/the-birthday-bar/submissions/code/357178798
 func main() {
 	// slice の部分取得のやり方
 	//         0, 1, 2, 3, 4
