@@ -58,20 +58,42 @@ func notDecideInputAmountSeparatedBySpace() []int {
 // 入力パターン
 // N
 // P1 P2 P3 ... Pn
-func decideInputCountAndNotDecideInputAmountSeparatedBySpace() (int, []int) {
-	var n int
-	fmt.Scanf("%d", &n) // %sでstring型を代入
-	sc := bufio.NewScanner(os.Stdin)
-	sc.Scan()
-	inputs := strings.Split(sc.Text(), " ")
+func decideInputCountAndNotDecideInputAmountSeparatedBySpace() (int, []int, []int, []int, []int) {
+	in := bufio.NewReader(os.Stdin)
+	out := bufio.NewWriter(os.Stdout)
+	defer out.Flush()
 
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var ps []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		ps = append(ps, p)          // intに型変換した値を、Pnを格納する配列に追加
+	var n int
+	fmt.Fscan(in, &n)
+
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		fmt.Fscan(in, &a[i])
 	}
-	return n, ps
+
+	var m int
+	fmt.Fscan(in, &m)
+
+	b := make([]int, m)
+	for i := 0; i < m; i++ {
+		fmt.Fscan(in, &b[i])
+	}
+
+	var l int
+	fmt.Fscan(in, &l)
+
+	c := make([]int, l)
+	for i := 0; i < l; i++ {
+		fmt.Fscan(in, &c[i])
+	}
+
+	var q int
+	fmt.Fscan(in, &q)
+	x := make([]int, q)
+	for i := 0; i < q; i++ {
+		fmt.Fscan(in, &x[i])
+	}
+	return q, a, b, c, x
 }
 
 // NotDecideInputAmountMultiColumns 入力パターン

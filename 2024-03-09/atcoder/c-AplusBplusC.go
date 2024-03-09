@@ -4,87 +4,74 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 func mainC() {
 	_, ps, bs, cs, xs := decideInputCountAndNotDecideInputAmountSeparatedBySpace()
-	result := aPlusBPlusC(ps, bs, cs)
-	for _, x := range xs {
-		if _, ok := result[x]; ok {
-			fmt.Println("Yes")
-		} else {
-			fmt.Println("No")
-		}
-	}
+	aPlusBPlusC(ps, bs, cs, xs)
 }
 
-func aPlusBPlusC(as, bs, cs []int) map[int]int {
+func aPlusBPlusC(as, bs, cs, xs []int) []bool {
 	// xi の値をas, bs, cs のうちどれかの要素で表現できるかどうかを判定する
 	// 100*100*100 を1回行って、作成した値をset に入れる。答えとの称号をset を使って判定する
-	var valueMap = make(map[int]int)
+	var valueMap = make(map[int]bool)
 
 	// 絶対に1つは選ぶ必要がある
 	for _, av := range as {
 		for _, bv := range bs {
 			for _, cv := range cs {
-				valueMap[av+bv+cv] = av + bv + cv
+				valueMap[av+bv+cv] = true
 			}
 		}
-
 	}
-	return valueMap
+
+	var result []bool
+	for _, x := range xs {
+		if valueMap[x] {
+			//result = append(result, true)
+			fmt.Println("Yes")
+		} else {
+			//result = append(result, false)
+			fmt.Println("No")
+		}
+	}
+	return result
 }
 
 func decideInputCountAndNotDecideInputAmountSeparatedBySpace() (int, []int, []int, []int, []int) {
-	var n int
-	fmt.Scanf("%d", &n) // %sでstring型を代入
-	sc := bufio.NewScanner(os.Stdin)
-	sc.Scan()
-	inputs := strings.Split(sc.Text(), " ")
+	in := bufio.NewReader(os.Stdin)
+	out := bufio.NewWriter(os.Stdout)
+	defer out.Flush()
 
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var ps []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		ps = append(ps, p)          // intに型変換した値を、Pnを格納する配列に追加
+	var n int
+	fmt.Fscan(in, &n)
+
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		fmt.Fscan(in, &a[i])
 	}
 
 	var m int
-	fmt.Scanf("%d", &m) // %sでstring型を代入
-	sc.Scan()
-	inputs = strings.Split(sc.Text(), " ")
+	fmt.Fscan(in, &m)
 
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var bs []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		bs = append(bs, p)          // intに型変換した値を、Pnを格納する配列に追加
+	b := make([]int, m)
+	for i := 0; i < m; i++ {
+		fmt.Fscan(in, &b[i])
 	}
 
 	var l int
-	fmt.Scanf("%d", &l) // %sでstring型を代入
-	sc.Scan()
-	inputs = strings.Split(sc.Text(), " ")
+	fmt.Fscan(in, &l)
 
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var cs []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		cs = append(cs, p)          // intに型変換した値を、Pnを格納する配列に追加
+	c := make([]int, l)
+	for i := 0; i < l; i++ {
+		fmt.Fscan(in, &c[i])
 	}
 
 	var q int
-	fmt.Scanf("%d", &q) // %sでstring型を代入
-	sc.Scan()
-	inputs = strings.Split(sc.Text(), " ")
-
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var xs []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		xs = append(xs, p)          // intに型変換した値を、Pnを格納する配列に追加
+	fmt.Fscan(in, &q)
+	x := make([]int, q)
+	for i := 0; i < q; i++ {
+		fmt.Fscan(in, &x[i])
 	}
-	return q, ps, bs, cs, xs
+	return q, a, b, c, x
 }
