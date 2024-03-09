@@ -127,6 +127,26 @@ func NotDecideInputAmountMultiColumnsBySliceMap() (int, map[int][]int) {
 	return n, inputSliceMap
 }
 
+// SingleColumnsBySlice  入力パターン
+// N
+// U1
+// U2
+// ...
+// 0
+// []int
+func SingleColumnsBySlice() []int {
+	sc := bufio.NewScanner(os.Stdin) // 標準入力を受け付けるスキャナ
+
+	var inputSlice []int
+	var input int
+	for input > 0 { // 行数分繰り返す
+		sc.Scan() // １行分の入力を取得する
+		input, _ = strconv.Atoi(sc.Text())
+		inputSlice = append(inputSlice, input)
+	}
+	return inputSlice
+}
+
 // GetGrid 入力
 // H W
 // B11 B12 B1w ...
