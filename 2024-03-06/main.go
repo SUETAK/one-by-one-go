@@ -32,3 +32,28 @@ func twoSumCorrect(nums []int, target int) []int {
 
 	return nil
 }
+
+func twoSumByMap(nums []int, target int) []int {
+	// int のマップを作成
+	numMap := make(map[int]int)
+
+	for i, v := range nums {
+		// 9 - 2 = 7 のように答えになる数字を確認する
+		comp := target - v
+
+		// numMap[comp] を使って、もし値が存在するなら配列を返す numMap[7]
+		// 解は1つしかない→num の中に絶対に2つ選べる数字がある
+		// [2, 7, 11, 15] であれば、 9 - 2 = 7 なので numMap[2] = 1
+		// 9 - 7 = 2 なので numMap[2] を探せば確実に値を取得できる
+		// オーダーはO(n)
+		if _, exist := numMap[comp]; exist {
+			return []int{numMap[comp], i}
+		}
+		// 配列が存在しないなら、map に格納する
+		numMap[v] = i
+
+	}
+
+	return []int{}
+
+}
