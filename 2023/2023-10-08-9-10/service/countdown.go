@@ -1,9 +1,9 @@
 package service
 
 import (
-	"2023-10-07/domain"
 	"context"
 	"fmt"
+	"one-by-one-go/2023/2023-10-08-9-10/domain"
 )
 
 type CountdownService interface {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"2023-10-07/service"
 	"context"
+	"one-by-one-go/2023/2023-10-08-9-10/service"
 	"os"
 	"os/signal"
 	"syscall"

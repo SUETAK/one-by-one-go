@@ -6,9 +6,9 @@ func main() {
 
 	// queries がwords のアナグラムになっているかを考える
 
-	for i, i2 := range words {
-
-	}
+	//for i, i2 := range words {
+	//
+	//}
 
 }
 

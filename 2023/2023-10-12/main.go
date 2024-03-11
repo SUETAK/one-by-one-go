@@ -1,8 +1,8 @@
 package main
 
 import (
-	"2023-10-12/domain"
 	"fmt"
+	"one-by-one-go/2023/2023-10-12/domain"
 )
 
 func main() {

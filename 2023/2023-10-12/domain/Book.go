@@ -57,7 +57,7 @@ func Authors() {
 	//businessBookAuthor := GetAuthor(&businessBook)
 	//programmingBookAuthor := GetAuthor(&programmingBook)
 
-	book := Book{Author: "Book Author", Title: "Book Title"}
+	_ = Book{Author: "Book Author", Title: "Book Title"}
 
 	businessBookAuthor := GetAuthor(businessBook)
 	programmingBookAuthor := GetAuthor(programmingBook)
