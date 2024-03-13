@@ -4,21 +4,34 @@ func main() {}
 
 func longestPalindrome(s string) string {
 
-	r := []rune(s)
-	aheadIndex := (len(r) / 2) - 1
-	var backIndex int
 	var answer string
-	if len(r)%2 == 0 {
-		backIndex = len(r) / 2
-	} else {
-		backIndex = (len(r) / 2) + 1
-		answer = string(r[len(r)/2])
-	}
+	var tmp string
+	for _, v := range s {
+		if len(tmp) < 2 {
+			tmp = tmp + string(v)
+			if tmp[0] == tmp[1] {
+				answer = tmp
+			} else {
+				answer = string(tmp[1])
+			}
+			continue
+		}
+		if len(answer) == 1 {
+			answer = answer + string(v)
+			continue
+		}
+		if len(answer) == 2 {
 
-	for r[aheadIndex] == r[backIndex] {
-		answer = string(r[aheadIndex]) + answer + string(r[backIndex])
-		aheadIndex--
-		backIndex++
+		}
+		// answer が偶数の場合
+		if len(answer)%2 == 0 {
+			if string(v) == string(answer[len(answer)-1]) {
+				answer = answer + string(v)
+			}
+		} else {
+
+		}
+
 	}
 
 	return answer
