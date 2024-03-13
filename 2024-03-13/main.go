@@ -3,36 +3,42 @@ package main
 func main() {}
 
 func longestPalindrome(s string) string {
+	// "a" や "ac" の時のことを考える
+	answer := string(s[0])
+	// 奇数の回文検索
+	for i := 0; i < len(s); i++ {
+		ahead := i - 1
+		back := i + 1
 
-	var answer string
-	var tmp string
-	for _, v := range s {
-		if len(tmp) < 2 {
-			tmp = tmp + string(v)
-			if tmp[0] == tmp[1] {
-				answer = tmp
+		for ahead >= 0 && back < len(s) {
+			if s[ahead] == s[back] {
+				if len(s[ahead:back+1]) > len(answer) {
+					answer = s[ahead : back+1]
+				}
 			} else {
-				answer = string(tmp[1])
+				// 同じ文字でない時点で回文ではなくなるのでbreak
+				break
 			}
-			continue
+			ahead--
+			back++
 		}
-		if len(answer) == 1 {
-			answer = answer + string(v)
-			continue
-		}
-		if len(answer) == 2 {
-
-		}
-		// answer が偶数の場合
-		if len(answer)%2 == 0 {
-			if string(v) == string(answer[len(answer)-1]) {
-				answer = answer + string(v)
-			}
-		} else {
-
-		}
-
 	}
 
+	for i := 0; i < len(s); i++ {
+		ahead := i
+		back := i + 1
+
+		for ahead >= 0 && back < len(s) {
+			if s[ahead] == s[back] {
+				if len(s[ahead:back+1]) > len(answer) {
+					answer = s[ahead : back+1]
+				}
+			} else {
+				break
+			}
+			ahead--
+			back++
+		}
+	}
 	return answer
 }
