@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_oneTimeSwap(t *testing.T) {
 	type args struct {
@@ -9,21 +11,28 @@ func Test_oneTimeSwap(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want string
+		want int
 	}{
 		{
 			name: "test1",
 			args: args{
 				s: "abc",
 			},
-			want: "3",
+			want: 3,
 		},
 		{
 			name: "test1",
 			args: args{
 				s: "aaaaa",
 			},
-			want: "1",
+			want: 1,
+		},
+		{
+			name: "test1",
+			args: args{
+				s: "aaabc",
+			},
+			want: 8,
 		},
 	}
 	for _, tt := range tests {
