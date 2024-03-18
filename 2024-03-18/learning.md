@@ -21,7 +21,7 @@ nums1 と nums2 を、減らない順にソートされた1つの配列にマー
 - [参考になりそうな回答](https://leetcode.com/problems/merge-sorted-array/solutions/4467339/iterate-backwards-with-two-pointers)
 
 # 回答時間
-- 00:15:38
+- 00:7:38
   - 問題読解：3分
   - 方針考える：3分
-  - コード作成：9分
+  - コード作成：1分
