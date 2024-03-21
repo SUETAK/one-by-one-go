@@ -3,14 +3,19 @@ package main
 func main() {}
 
 func removeDuplicates(nums []int) int {
-	//k := 1
-	//count := 1
-	//previousValue := nums[0]
-	//for i := 1; i < len(nums); i++ {
-	//
-	//}
-	//return k
-	return 1
+	if len(nums) <= 2 {
+		return len(nums)
+	}
+
+	slowPointer := 2
+	for fastPointer := 2; fastPointer < len(nums); fastPointer++ {
+		// fastPointer の値とslowPointer の2つ前の値が異なる場合、
+		if nums[fastPointer] != nums[slowPointer-2] {
+			nums[slowPointer] = nums[fastPointer]
+			slowPointer++
+		}
+	}
+	return slowPointer
 }
 
 // 回答
