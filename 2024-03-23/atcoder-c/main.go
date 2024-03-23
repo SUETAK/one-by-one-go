@@ -5,29 +5,28 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 )
 
-func GetGrid() (int, int, []int) {
-	sc := bufio.NewScanner(os.Stdin)
-	// 入力
-	var H, W int
-	fmt.Scan(&H, &W)
+var sc = bufio.NewScanner(os.Stdin)
 
-	sc.Scan()                               // １行分の入力を取得する
-	inputs := strings.Split(sc.Text(), " ") // 半角スペース区切りでstring型として配列inputsに格納
+func scanInt() int {
+	sc.Scan()
+	i, _ := strconv.Atoi(sc.Text())
+	return i
 
-	// 配列inputsの中身をstring→intに変換してリストに格納
-	var ps []int                   // Pnを格納する配列を宣言
-	for _, input := range inputs { // 配列inputsの全ての要素について実行
-		p, _ := strconv.Atoi(input) // string→intに型変換
-		ps = append(ps, p)          // intに型変換した値を、Pnを格納する配列に追加
+}
+
+func scanInput() (int, int, []int) {
+	n, k := scanInt(), scanInt()
+	a := []int{}
+	for i := 0; i < n; i++ {
+		a = append(a, scanInt())
 	}
-	return H, W, ps
+	return n, k, a
 }
 
 func main() {
-	_, k, ary := GetGrid()
+	_, k, ary := scanInput()
 	result := sigma(k, ary)
 	fmt.Println(result)
 }
