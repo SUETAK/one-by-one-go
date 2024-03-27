@@ -3,20 +3,19 @@ package main
 func main() {}
 
 func maxProfit(prices []int) int {
-	profit := 0
-	for i := 0; i < len(prices)-1; i++ {
-		v := prices[i]
-		for j := i + 1; j < len(prices); j++ {
-			v2 := prices[j]
-			if v2-v < 0 {
-				continue
-			}
-			if profit < v2-v {
-				profit = v2 - v
-				continue
+	maxP := 0
+	minPrice := prices[0]
+	for i := 1; i < len(prices); i++ {
+		price := prices[i]
+		if minPrice > price {
+			minPrice = price
+		} else {
+			profit := price - minPrice
+			if profit > maxP {
+				maxP = profit
 			}
 		}
 	}
 
-	return profit
+	return maxP
 }
