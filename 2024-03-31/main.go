@@ -7,28 +7,17 @@ func canJump(nums []int) bool {
 		return true
 	}
 
-	if nums[0] == 0 {
-		return false
-	}
-	for i := 1; i < len(nums)-1; i++ {
-		if nums[i] != 0 {
-			continue
+	maxReach := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if maxReach < i {
+			return false
 		}
-
-		// 0があったら前をたどる
-		count := 1
-		for j := i - 1; j >= 0; j-- {
-			if nums[j] <= count {
-				if j == 0 {
-					return false
-				}
-				count++
-				continue
-			} else {
-				break
-			}
+		if maxReach > len(nums) {
+			return true
 		}
-
+		if i+nums[i] > maxReach {
+			maxReach = i + nums[i]
+		}
 	}
 	return true
 }
