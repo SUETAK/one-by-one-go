@@ -7,46 +7,40 @@ import (
 func main() {}
 
 type RandomizedSet struct {
-	valueMap  map[int]int
-	valueKeys []int
+	m map[int]int
+	a []int
 }
 
 func Constructor() RandomizedSet {
 
-	return RandomizedSet{valueMap: make(map[int]int), valueKeys: make([]int, 0)}
+	return RandomizedSet{m: make(map[int]int), a: make([]int, 0)}
 }
 
 func (this *RandomizedSet) Insert(val int) bool {
-	if _, ok := this.valueMap[val]; ok {
+	if _, ok := this.m[val]; ok {
 		return false
-	} else {
-		this.valueMap[val] = len(this.valueKeys)
-		newValueKeys := make([]int, 0, len(this.valueMap))
-		for i, _ := range this.valueMap {
-			newValueKeys = append(newValueKeys, i)
-		}
-		this.valueKeys = newValueKeys
-		return true
 	}
+	this.m[val] = len(this.a)
+	this.a = append(this.a, val)
+	return true
+
 }
 
 func (this *RandomizedSet) Remove(val int) bool {
-	if _, ok := this.valueMap[val]; ok {
-		delete(this.valueMap, val)
-		newValueKeys := make([]int, 0, len(this.valueMap))
-		for i, _ := range this.valueMap {
-			newValueKeys = append(newValueKeys, i)
-		}
-		this.valueKeys = newValueKeys
+	if i, ok := this.m[val]; ok {
+		lastElement := this.a[len(this.a)-1]
+		this.a[i], this.m[lastElement] = lastElement, i
+		this.a = this.a[:len(this.a)-1]
+		delete(this.m, val)
 		return true
-	} else {
-		return false
 	}
+	return false
+
 }
 
 func (this *RandomizedSet) GetRandom() int {
-	i := rand.Intn(len(this.valueKeys))
-	return this.valueKeys[i]
+	i := rand.Intn(len(this.a))
+	return this.a[i]
 }
 
 /**
