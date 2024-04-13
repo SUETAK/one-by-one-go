@@ -34,9 +34,15 @@ func isAirportCode(s, t string) bool {
 		lowerT[1:2]: false,
 		lowerT[2:3]: lowerT[2:3] == "x",
 	}
+	index := 0
 	for _, r := range lowerT {
-		index := strings.Index(s, string(r))
-		if index != -1 {
+		findIndex := strings.Index(s[index:], string(r))
+		if findIndex != -1 {
+			if index < findIndex {
+				index = findIndex
+			} else if index == findIndex {
+				index++
+			}
 			tMap[string(r)] = true
 		}
 	}

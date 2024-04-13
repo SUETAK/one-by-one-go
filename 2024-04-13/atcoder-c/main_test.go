@@ -61,6 +61,13 @@ func Test_isAirportCode(t *testing.T) {
 				t: "XYZ",
 			},
 			want: false,
+		}, {
+			name: "test",
+			args: args{
+				s: "cbacb",
+				t: "ABC",
+			},
+			want: false,
 		},
 	}
 	for _, tt := range tests {
