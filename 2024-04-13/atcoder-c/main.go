@@ -27,30 +27,20 @@ func main() {
 
 // s の長さ3の部分列をとり、それを大文字にしたものがt
 // s の長さ2 の部分列をとり、それを英大文字に変換して、末尾にXを追加したもの
+// t の文字を見つけたら、tの次の文字があるかどうかを、tの文字を見つけたindex より後ろを探す
 func isAirportCode(s, t string) bool {
-	lowerT := strings.ToLower(t)
-	tMap := map[string]bool{
-		lowerT[0:1]: false,
-		lowerT[1:2]: false,
-		lowerT[2:3]: lowerT[2:3] == "x",
-	}
-	index := 0
-	for _, r := range lowerT {
-		findIndex := strings.Index(s[index:], string(r))
-		if findIndex != -1 {
-			if index < findIndex {
-				index = findIndex
-			} else if index == findIndex {
-				index++
-			}
-			tMap[string(r)] = true
+	ta := strings.Split(strings.ToLower(t), "")
+	idx := 0
+	for _, r := range s {
+		if ta[idx] == string(r) {
+			idx += 1
+		}
+		if idx == 3 {
+			return true
 		}
 	}
-
-	for _, v := range tMap {
-		if !v {
-			return false
-		}
+	if idx == 2 && ta[idx] == "x" {
+		return true
 	}
-	return true
+	return false
 }
