@@ -64,7 +64,7 @@ func Test_isAirportCode(t *testing.T) {
 		}, {
 			name: "test",
 			args: args{
-				s: "cbacb",
+				s: "cbab",
 				t: "ABC",
 			},
 			want: false,
