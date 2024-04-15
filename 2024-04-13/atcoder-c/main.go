@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func decideInputAmountSeparatedByHalfSpace() (string, string) {
+func getInput() (string, string) {
 
 	var s string
 	var t string
@@ -16,7 +16,7 @@ func decideInputAmountSeparatedByHalfSpace() (string, string) {
 }
 
 func main() {
-	s, t := decideInputAmountSeparatedByHalfSpace()
+	s, t := getInput()
 
 	if isAirportCode(s, t) {
 		fmt.Println("Yes")
@@ -38,11 +38,8 @@ func isAirportCode(s, t string) bool {
 		if index == -1 {
 			return false
 		}
-		if index+idx > idx {
-			idx += index + 1
-		} else if index == 0 {
-			idx++
-		}
+
+		idx += index + 1
 	}
 
 	return true
