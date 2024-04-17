@@ -5,7 +5,6 @@ import "strings"
 func main() {}
 
 func romanToInt(s string) int {
-	// M, C, M, X, C, I, V
 	romanCostMap := map[string]int{
 		"I": 1,
 		"V": 5,
@@ -15,22 +14,20 @@ func romanToInt(s string) int {
 		"D": 500,
 		"M": 1000,
 	}
-	if len(s) == 1 {
-		return romanCostMap[s]
-	}
 
 	split := strings.Split(s, "")
-	//romanMap := make(map[string]int)
 
-	var answer int
+	var answer, currentValue, lastValue int
 
-	before := ""
-	for i := 1; i < len(split); i++ {
-		before = split[i-1]
-		if before == split[i] {
-			answer += romanCostMap[split[i]]
+	for i := len(s) - 1; i >= 0; i-- {
+		currentValue = romanCostMap[split[i]]
+		if currentValue < lastValue {
+			answer -= currentValue
+		} else {
+			answer += currentValue
 		}
-
+		// 前回の値の更新
+		lastValue = currentValue
 	}
 
 	return answer
