@@ -4,61 +4,54 @@ import "strings"
 
 func main() {}
 
-var romanStringCostMap = map[string]int{
-	"I": 1,
-	"V": 5,
-	"X": 10,
-	"L": 50,
-	"C": 100,
-	"D": 500,
-	"M": 1000,
+var romanStringCostMap = map[int]string{
+	1:    "I",
+	4:    "IV",
+	5:    "V",
+	9:    "IX",
+	10:   "X",
+	40:   "XL",
+	50:   "L",
+	90:   "XC",
+	100:  "C",
+	400:  "CD",
+	500:  "D",
+	900:  "CM",
+	1000: "M",
 }
 
 func intToRoman(num int) string {
-
 	answer := ""
-	for num > 0 {
-		if num/1000 != 0 {
-			num, answer = decreaseNumber(num, "M", "M", "M", answer)
-		}
-		if num != 0 && num/500 != 0 {
-			num, answer = decreaseNumber(num, "C", "D", "M", answer)
-		}
-		if num != 0 && num/100 != 0 {
-			num, answer = decreaseNumber(num, "L", "C", "D", answer)
-		}
-		if num != 0 && num/50 != 0 {
-			num, answer = decreaseNumber(num, "X", "L", "C", answer)
-		}
-		if num != 0 && num/10 != 0 {
-			num, answer = decreaseNumber(num, "V", "X", "L", answer)
-		}
-		if num != 0 && num/5 != 0 {
-			num, answer = decreaseNumber(num, "I", "V", "X", answer)
-		}
-		if num != 0 && num/1 != 0 {
-			num, answer = decreaseNumber(num, "I", "I", "V", answer)
-		}
+	numArray := make(map[int]int)
+	r := []int{1000, 100, 10, 1}
+	for _, v := range r {
+
+		numArray[v] = num / v
+		num -= v * (num / v)
 	}
 
+	for _, rv := range r {
+		if numArray[rv] == 0 {
+			continue
+		}
+		if rv == 1000 {
+			answer += strings.Repeat(romanStringCostMap[rv], numArray[rv])
+			continue
+		}
+
+		if numArray[rv] == 4 || numArray[rv] == 5 || numArray[rv] == 9 {
+			answer += romanStringCostMap[numArray[rv]*rv]
+			continue
+		}
+
+		if numArray[rv] <= 3 {
+			answer += strings.Repeat(romanStringCostMap[rv], numArray[rv])
+			continue
+		}
+		if numArray[rv] <= 8 {
+			answer += romanStringCostMap[rv*5] + strings.Repeat(romanStringCostMap[rv], numArray[rv]-5)
+			continue
+		}
+	}
 	return answer
-}
-
-func decreaseNumber(num int, beforeDigit, digit, nextDigit, answer string) (int, string) {
-	cost := romanStringCostMap[digit]
-	if num/romanStringCostMap[beforeDigit] == 9 {
-		answer += beforeDigit + nextDigit
-		num -= romanStringCostMap[beforeDigit] * 9
-		return num, answer
-	} else if num/romanStringCostMap[digit] == 4 {
-		answer += digit + nextDigit
-	} else {
-		answer += strings.Repeat(digit, num/cost)
-	}
-	if cost == 1 {
-		num -= num / cost
-	} else {
-		num -= cost * (num / cost)
-	}
-	return num, answer
 }
