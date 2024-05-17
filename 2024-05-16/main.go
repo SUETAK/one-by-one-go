@@ -1,57 +1,33 @@
 package main
 
+import "math"
+
 func main() {}
 
 func minSubArrayLen(target int, nums []int) int {
+	n := len(nums)
+	if n == 0 {
+		return 0
+	}
 
+	minLength := len(nums)
+	sum := 0
 	left := 0
-	right := 0
-	result := len(nums)
-	sum := nums[right]
-	for left != len(nums) {
-		for right != len(nums)-1 && sum < target {
-			right++
-			sum += nums[right]
 
-			if sum == target {
-				length := right + 1 - left
-				if result > length {
-					result = length
-				}
-				left = right
-				sum = 0
-				continue
+	for right := 0; right < n; right++ {
+		sum += nums[right]
+		// Once sum is greater than or equal to target, try to shrink the window size
+		for sum >= target {
+			if currentLength := right - left + 1; currentLength < minLength {
+				minLength = currentLength
 			}
-
-		}
-
-		sum -= nums[left]
-		left++
-		if sum == target {
-			length := right + 1 - left
-			if result > length {
-				result = length
-			}
-			left = right
-			sum = 0
-			continue
-		}
-		// sum > target の状況
-		for sum > target || len(nums)-1 == right {
-			left++
 			sum -= nums[left]
-
-			if sum == target {
-				length := right + 1 - left
-				if result > length {
-					result = length
-				}
-				left = right
-				sum = 0
-				continue
-			}
+			left++
 		}
 	}
 
-	return result
+	if minLength == math.MaxInt32 {
+		return 0
+	}
+	return minLength
 }
