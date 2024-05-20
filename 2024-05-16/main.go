@@ -14,9 +14,10 @@ func minSubArrayLen(target int, nums []int) int {
 	sum := 0
 	left := 0
 
+	// 窓の右枠はnums の最大幅
 	for right := 0; right < n; right++ {
 		sum += nums[right]
-		// Once sum is greater than or equal to target, try to shrink the window size
+		// sumがtarget を上回っている間だけ、leftを更新し続ける
 		for sum >= target {
 			if currentLength := right - left + 1; currentLength < minLength {
 				minLength = currentLength
