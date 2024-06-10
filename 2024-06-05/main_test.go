@@ -40,6 +40,13 @@ func Test_isIsomorphic(t *testing.T) {
 				t: "aaabbbba",
 			},
 			want: false,
+		}, {
+			name: "test",
+			args: args{
+				s: "\u0000\u0000",
+				t: "\u0000c",
+			},
+			want: false,
 		},
 	}
 	for _, tt := range tests {
