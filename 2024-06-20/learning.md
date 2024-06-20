@@ -73,6 +73,54 @@ func (c C) GetName() string {
 インターフェースAにインターフェースBを埋め込む場合、A,Bの両方を満たす構造体が必要です。
 
 
+```Go
+package main
+
+func main() {
+
+	a := service{&Putter{}}
+
+	a.SetId(1)
+	a.SetName("name")
+}
+
+type service struct {
+	Ie
+}
+
+type Ie interface {
+	embed
+	SetId(id int)
+}
+
+type embed interface {
+	SetName(name string)
+}
+
+type Putter struct {
+	id   int
+	name string
+}
+
+func (p *Putter) SetId(id int) {
+	p.id = id
+}
+
+func (p *Putter) SetName(name string) {
+	p.name = name
+}
+
+```
+
+## 埋め込んだ構造体のテスト
+
+インターフェースの埋め込みを行う場合、インターフェースの関数全てを満たす構造体があれば良いです。
+そのため、テストを作成したい場合、mock用の構造体を作成すれば関数の振る舞いを後から決める事ができます。
+
+
+一方で構造体の埋め込みの場合はmock する事ができないため、テストは複雑になります。
+
+
 
 
 

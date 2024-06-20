@@ -1,17 +1,35 @@
 package main
 
-import (
-	"fmt"
-	se "one-by-one-go/2024-06-20/struct_embedding"
-)
-
 func main() {
 
-	a := &se.A{B: se.B{Id: 1}, I: se.C{Name: "Struct C"}}
+	a := service{&Putter{}}
 
-	fmt.Println(a.GetId())
-	fmt.Println(a.B.GetId())
+	a.SetId(1)
+	a.SetName("name")
+}
 
-	fmt.Println(a.GetName())
-	fmt.Println(a.I.GetName())
+type service struct {
+	Ie
+}
+
+type Ie interface {
+	embed
+	SetId(id int)
+}
+
+type embed interface {
+	SetName(name string)
+}
+
+type Putter struct {
+	id   int
+	name string
+}
+
+func (p *Putter) SetId(id int) {
+	p.id = id
+}
+
+func (p *Putter) SetName(name string) {
+	p.name = name
 }
